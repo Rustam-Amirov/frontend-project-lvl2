@@ -1,4 +1,5 @@
 import {Command} from 'commander';
+import genDiff from './src/genDiff.js';
 
 export default () => {
     const program = new Command();
@@ -7,6 +8,8 @@ export default () => {
         .description('Compares two configuration files and shows a difference.')
         .option('-f, --format [type]', 'output format')
         .arguments('<filePath1> <filePath2>')
-        .action((filePath1, filePath2) => {});
+        .action((filePath1, filePath2) => {
+            genDiff(filePath1, filePath2);
+        });
     program.parse();
 };
