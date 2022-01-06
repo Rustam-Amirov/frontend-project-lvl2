@@ -1,34 +1,26 @@
 import _ from 'lodash';
 
+const getLine = (result, key, value, finish) => ({
+  result, key, value, finish,
+});
+
 export default (content1, content2) => {
   const iter = (text1, text2) => {
     const allKeys = _.uniq([...Object.keys(text1), ...Object.keys(text2)]);
     const result = allKeys.reduce((acc, key) => {
       if ({}.propertyIsEnumerable.call(text2, key) && {}.propertyIsEnumerable.call(text1, key)) {
         if (typeof text2[key] === 'object' && typeof text1[key] === 'object') {
-          acc.push({
-            result: ' ', key, value: iter(text1[key], text2[key]), finish: false,
-          });
+          acc.push(getLine(' ', key, iter(text1[key], text2[key]), false));
         } else if (text1[key] === text2[key]) {
-          acc.push({
-            result: ' ', key, value: text1[key], finish: true,
-          });
+          acc.push(getLine(' ', key, text1[key], true));
         } else {
-          acc.push({
-            result: '-', key, value: text1[key], finish: true,
-          });
-          acc.push({
-            result: '+', key, value: text2[key], finish: true,
-          });
+          acc.push(getLine('-', key, text1[key], true));
+          acc.push(getLine('+', key, text2[key], true));
         }
       } else if ({}.propertyIsEnumerable.call(text1, key)) {
-        acc.push({
-          result: '-', key, value: text1[key], finish: true,
-        });
+        acc.push(getLine('-', key, text1[key], true));
       } else {
-        acc.push({
-          result: '+', key, value: text2[key], finish: true,
-        });
+        acc.push(getLine('+', key, text2[key], true));
       }
       return acc;
     }, []);
