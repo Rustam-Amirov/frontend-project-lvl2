@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import path from 'path';
 import doDiff from './doDiff.js';
 import getParser from './getParser.js';
-import getFormat from './getFormat.js';
+import getFormat from './formatters/index.js';
 
 export default (filePath1, filePath2, format = 'stylish') => {
   if (!fs.existsSync(filePath1) || !fs.existsSync(filePath2)) {

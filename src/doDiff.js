@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
-const getLine = (result, key, value, finish) => ({
-  result, key, value, finish,
+const getLine = (result, key, value, finish, newValue = undefined, dismiss = false) => ({
+  result, key, value, finish, newValue, dismiss,
 });
 
 export default (content1, content2) => {
@@ -14,8 +14,8 @@ export default (content1, content2) => {
         } else if (text1[key] === text2[key]) {
           acc.push(getLine(' ', key, text1[key], true));
         } else {
-          acc.push(getLine('-', key, text1[key], true));
-          acc.push(getLine('+', key, text2[key], true));
+          acc.push(getLine('-', key, text1[key], true, text2[key]));
+          acc.push(getLine('+', key, text2[key], true, text1[key], true));
         }
       } else if ({}.propertyIsEnumerable.call(text1, key)) {
         acc.push(getLine('-', key, text1[key], true));
